@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Co-op Application Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <h1>Co-op Application Tracker</h1>
+    <p>Track job applications, deadlines and status in one place. Data stays in your browser.</p>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section aria-labelledby="add-heading">
+      <h2 id="add-heading">Add an application</h2>
+      <form id="app-form" novalidate>
+        <div class="field">
+          <label for="company">Company <span aria-hidden="true">*</span></label>
+          <input id="company" name="company" type="text" required aria-required="true" aria-describedby="company-error" autocomplete="organization">
+          <p id="company-error" class="error" role="alert" hidden>Enter a company name.</p>
+        </div>
+
+        <div class="field">
+          <label for="role">Role <span aria-hidden="true">*</span></label>
+          <input id="role" name="role" type="text" required aria-required="true" aria-describedby="role-error">
+          <p id="role-error" class="error" role="alert" hidden>Enter a role.</p>
+        </div>
+
+        <div class="field">
+          <label for="deadline">Deadline</label>
+          <input id="deadline" name="deadline" type="date" aria-describedby="deadline-hint">
+          <p id="deadline-hint" class="hint">Optional. Pick a date or type it in.</p>
+        </div>
+
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            <option>Not applied</option>
+            <option>Applied</option>
+            <option>Interview</option>
+            <option>Offer</option>
+            <option>Rejected</option>
+          </select>
+        </div>
+
+        <button type="submit">Add application</button>
+      </form>
+    </section>
+
+    <section aria-labelledby="list-heading">
+      <h2 id="list-heading">Your applications</h2>
+
+      <div class="filters">
+        <label for="filter-status">Filter by status</label>
+        <select id="filter-status">
+          <option value="All">All</option>
+          <option>Not applied</option>
+          <option>Applied</option>
+          <option>Interview</option>
+          <option>Offer</option>
+          <option>Rejected</option>
+        </select>
+
+        <label for="search">Search company or role</label>
+        <input id="search" type="search">
+      </div>
+
+      <p id="summary" aria-live="polite"></p>
+
+      <table>
+        <caption class="visually-hidden">Applications, sorted by deadline</caption>
+        <thead>
+          <tr>
+            <th scope="col">Company</th>
+            <th scope="col">Role</th>
+            <th scope="col">Deadline</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="app-rows"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built to meet WCAG 2.0 Level AA, the standard required by Ontario's AODA. See the user guide for details.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+/* Colours chosen for WCAG 2.0 AA contrast (4.5:1 or higher for body text). */
+:root {
+  --text: #1a1a1a;
+  --bg: #ffffff;
+  --accent: #0b4f8a;      /* 8.6:1 on white */
+  --error: #a4161a;       /* 7.0:1 on white */
+  --muted: #4a4a4a;       /* 8.9:1 on white */
+  --border: #6b6b6b;
+  --focus: #ffbf47;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+header, main, footer { max-width: 60rem; margin: 0 auto; padding: 1rem; }
+header { border-bottom: 2px solid var(--accent); }
+h1 { color: var(--accent); margin-bottom: 0.25rem; }
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+.skip-link:focus { left: 0; }
+
+/* Visible keyboard focus on every interactive element (WCAG 2.4.7). */
+a:focus, button:focus, input:focus, select:focus, main:focus {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.field { margin-bottom: 1rem; }
+label { display: block; font-weight: bold; margin-bottom: 0.25rem; }
+input, select {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  min-width: 16rem;
+}
+.hint { color: var(--muted); margin: 0.25rem 0 0; font-size: 0.9rem; }
+.error { color: var(--error); font-weight: bold; margin: 0.25rem 0 0; }
+input[aria-invalid="true"] { border: 2px solid var(--error); }
+
+button {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button.secondary { background: #fff; color: var(--accent); border: 2px solid var(--accent); }
+
+.filters { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: end; margin-bottom: 1rem; }
+.filters label { margin-bottom: 0; }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid var(--border); }
+th { background: #eef3f8; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+footer { color: var(--muted); border-top: 1px solid var(--border); margin-top: 2rem; }
+
+@media (max-width: 40rem) {
+  input, select { min-width: 100%; }
+}
