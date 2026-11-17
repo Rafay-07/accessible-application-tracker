@@ -3,12 +3,14 @@
 
 const STORAGE_KEY = "coopApplications";
 
+// The page elements this script reads and updates.
 const form = document.getElementById("app-form");
 const rows = document.getElementById("app-rows");
 const filterStatus = document.getElementById("filter-status");
 const search = document.getElementById("search");
 const summary = document.getElementById("summary");
 
+// Read the saved applications. If nothing is saved, or the saved text is damaged, start with an empty list.
 function load() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -17,6 +19,7 @@ function load() {
   }
 }
 
+// Write the list back to the browser's storage.
 function save(apps) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
@@ -35,6 +38,7 @@ function setError(input, message, show) {
   error.hidden = !show;
 }
 
+// Check the two required fields. Focus moves to the first one with a problem, so keyboard users land on it.
 function validate() {
   const company = document.getElementById("company");
   const role = document.getElementById("role");
@@ -47,15 +51,18 @@ function validate() {
   return true;
 }
 
+// Rebuild the table from the list, applying the status filter and the search box.
 function render() {
   const status = filterStatus.value;
   const term = search.value.trim().toLowerCase();
 
+  // Filter by status, then by search text, then sort by deadline. Entries with no deadline go last.
   const visible = apps
     .filter(a => status === "All" || a.status === status)
     .filter(a => (a.company + " " + a.role).toLowerCase().includes(term))
     .sort((a, b) => (a.deadline || "9999").localeCompare(b.deadline || "9999"));
 
+  // Clear the old rows. Cells are filled with textContent, so typed text is never treated as HTML.
   rows.innerHTML = "";
   visible.forEach(app => {
     const tr = document.createElement("tr");
@@ -94,6 +101,7 @@ function render() {
     del.className = "secondary";
     del.textContent = "Delete";
     del.setAttribute("aria-label", "Delete " + app.company + " " + app.role);
+    // After a delete the button is gone, so focus is sent to the filter instead of being lost.
     del.addEventListener("click", () => {
       apps = apps.filter(a => a.id !== app.id);
       save(apps);
@@ -111,11 +119,13 @@ function render() {
   summary.textContent = "Showing " + visible.length + " of " + apps.length + " applications.";
 }
 
+// Add a new application when the form is submitted.
 form.addEventListener("submit", event => {
   event.preventDefault();
   if (!validate()) return;
 
   apps.push({
+    // The time in milliseconds is used as a simple unique id.
     id: Date.now(),
     company: form.company.value.trim(),
     role: form.role.value.trim(),
@@ -129,6 +139,7 @@ form.addEventListener("submit", event => {
   document.getElementById("company").focus();
 });
 
+// Redraw the table whenever the filter or the search text changes.
 filterStatus.addEventListener("change", render);
 search.addEventListener("input", render);
 
